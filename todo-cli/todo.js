@@ -7,30 +7,29 @@ const todoList = () => {
   const markAsComplete = (index) => {
     all[index].completed = true;
   };
-
+  const Ndate = () => new Date();
   const overdue = () => {
-    arr = [];
-    for (const time of all) {
-      if (new Date(today) > new Date(time.dueDate)) {
-        arr.push(time);
-      }
-      //console.log(arr)
-    }
-    return arr;
-    // Write the date check condition here and return the array
-    // of overdue items accordingly.
+    // Write the date check condition here and return the array of overdue items accordingly.
+    // FILL YOUR CODE HERE
+    return all.filter(
+      (dolist) => dolist.dueDate < Ndate().toLocaleDateString("en-CA")
+    );
   };
 
   const dueToday = () => {
-    return all.filter((todos) => today == todos.dueDate);
-    // Write the date check condition here and return the array
-    // of todo items that are due today accordingly.
+    // Write the date check condition here and return the array of todo items that are due today accordingly.
+    // FILL YOUR CODE HERE
+    return all.filter(
+      (dolist) => Ndate().toLocaleDateString("en-CA") == dolist.dueDate
+    );
   };
 
   const dueLater = () => {
-    return all.filter((todos) => today < todos.dueDate);
-    // Write the date check condition here and return the array
-    // of todo items that are due later accordingly.
+    // Write the date check condition here and return the array of todo items that are due later accordingly.
+    // FILL YOUR CODE HERE
+    return all.filter(
+      (dolist) => dolist.dueDate > Ndate().toLocaleDateString("en-CA")
+    );
   };
 
   const toDisplayableList = (list) => {
