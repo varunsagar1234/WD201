@@ -1,12 +1,11 @@
 /* eslint-disable no-undef */
 const todoList = require("../todo");
+const pDay = 60 * 60 * 24 * 1000; /*per day*/
+const fDay = new Date();
 
 const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
 describe("TodoList Test Suite", () => {
   beforeAll(() => {
-    const pDay = 60 * 60 * 24 * 1000; /*per day*/
-    const fDay = new Date();
-
     [
       {
         title: "Buy milk",
@@ -26,26 +25,50 @@ describe("TodoList Test Suite", () => {
     ].forEach(add);
   });
   test("Should add new todo", () => {
-    expect(all.length).toBe(3);
+    const count = all.length;
     add({
       title: "test todo",
       completed: false,
       dueDate: new Date().toISOString().slice(0, 10),
     });
-    expect(all.length).toBe(4);
+    expect(all.length).toEqual(count + 1);
   });
   test("Should mark a todo as complete", () => {
-    expect(all[0].completed).toBe(false);
-    markAsComplete(0);
-    expect(all[0].completed).toBe(true);
+    const todocount = all.length;
+    add({
+      title: "test todo completed",
+      completed: false,
+      dueDate: new Date(fDay.getTime() - 2 * pDay).toISOString().slice(0, 10),
+    });
+    expect(all[todocount].completed).toBe(false);
+    markAsComplete(todocount);
+    expect(all[todocount].completed).toBe(true);
   });
   test("retrieving overdue items", () => {
-    expect(overdue().length).toBe(1);
+    const overDueCount = overdue().length;
+    add({
+      title: "test overdue",
+      completed: false,
+      dueDate: new Date(fDay.getTime() - 2 * pDay).toISOString().slice(0, 10),
+    });
+    expect(overdue().length).toEqual(overDueCount + 1);
   });
   test("retrieving dueToday items", () => {
-    expect(dueToday().length).toBe(2);
+    const dueTodayCount = dueToday().length;
+    add({
+      title: "test dueToday",
+      completed: false,
+      dueDate: new Date().toISOString().slice(0, 10),
+    });
+    expect(dueToday().length).toEqual(dueTodayCount + 1);
   });
   test("retrieving dueLater items", () => {
-    expect(dueLater().length).toBe(1);
+    const dueLaterCount = dueLater().length;
+    add({
+      title: "test dueToday",
+      completed: false,
+      dueDate: new Date(fDay.getTime() + 2 * pDay).toISOString().slice(0, 10),
+    });
+    expect(dueLater().length).toEqual(dueLaterCount + 1);
   });
 });
