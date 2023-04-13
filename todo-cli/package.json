@@ -4,7 +4,8 @@
   "description": "",
   "main": "todo.js",
   "scripts": {
-    "test": "jest",
+    
+    "test": "jest --no-cache  --detectOpenHandles --runInBand --forceExit",
     "prepare": "cd .. && husky install todo-cli/.husky"
   },
   "lint-staged": {
