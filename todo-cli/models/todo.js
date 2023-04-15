@@ -17,27 +17,29 @@ module.exports = (sequelize, DataTypes) => {
 
       console.log("Overdue");
       // FILL IN HERE
-      const pending = await Todo.overdue();
-      const pendingList = pending
+      const pendingItems = await Todo.overdue();
+      const pendingItemsList = pendingItems
         .map((todos) => todos.displayableString())
         .join("\n");
-      console.log(pendingList);
+      console.log(pendingItemsList);
       console.log("\n");
+
       console.log("Due Today");
       // FILL IN HERE
-      const today = await Todo.dueToday();
-      const todaylist = today
+      const todayItems = await Todo.dueToday();
+      const todayItemslist = todayItems
         .map((todos) => todos.displayableString())
         .join("\n");
-      console.log(todaylist);
+      console.log(todayItemslist);
       console.log("\n");
+
       console.log("Due Later");
       // FILL IN HERE
-      const later = await Todo.dueLater();
-      const laterList = later
+      const laterItems = await Todo.dueLater();
+      const laterItemsList = laterItems
         .map((todos) => todos.displayableString())
         .join("\n");
-      console.log(laterList);
+      console.log(laterItemsList);
     }
 
     static async overdue() {
