@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -17,6 +18,60 @@ module.exports = (sequelize, DataTypes) => {
 
     static getTodos() {
       return this.findAll();
+    }
+    static async overdue() {
+      // FILL IN HERE TO RETURN OVERDUE ITEMS
+
+      const today = new Date();
+      return Todo.findAll({
+        where: {
+          dueDate: {
+            [Op.lt]: today,
+          },
+          completed: false,
+        },
+        order: [["id", "ASC"]],
+      });
+    }
+
+    static async dueToday() {
+      // FILL IN HERE TO RETURN ITEMS DUE tODAY
+      const today = new Date();
+      return Todo.findAll({
+        where: {
+          dueDate: {
+            [Op.eq]: today,
+          },
+          completed: false,
+        },
+        order: [["id", "ASC"]],
+      });
+    }
+
+    static async dueLater() {
+      // FILL IN HERE TO RETURN ITEMS DUE LATER
+      const today = new Date();
+      return Todo.findAll({
+        where: {
+          dueDate: {
+            [Op.gt]: today,
+          },
+          completed: false,
+        },
+        order: [["id", "ASC"]],
+      });
+    }
+
+    static async markAsComplete(id) {
+      // FILL IN HERE TO MARK AN ITEM AS COMPLETE
+      return Todo.update(
+        { completed: true },
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
     }
 
     markAsCompleted() {

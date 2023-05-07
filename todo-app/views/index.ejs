@@ -1,15 +1,35 @@
 <html>
     <head>
-      <link href="./css/styles.css" rel="stylesheet">  
+      <link href="./css/styles.css" rel="stylesheet">
+      <script src="https://cdn.tailwindcss.com"></script> 
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.15/tailwind.min.css"> 
     </head>
-    <%- include('header.ejs') %>
-
     <body>
-    
-    <%-include('todos.ejs') %>
+      <div class="grid grid-cols-6">
+        <div class="col-start-3 col-span-2">
+         <%- include('header.ejs')%>
+         <form>
+          <div class="flex gap-2 py-4">
+            <div class="flex-auto">
+              <input type="text" placeholder="what's next?" class="border border-gray-300 rounded text-gray-900 text-sm w-full p-2" required/>
+            </div>
+          <div class="flex-auto">
+            <input type="date" class="border border-gray-300 rounded text-gray-900 text-medium w-full p-2 leading-4"/>
+          </div>
+          <div class="flex-none">
+            <button type="submit" class="bg-green-600 text-white px-5 py-2 rounded font-medium px-5 py-2 ">Add</button>
+          </div> 
+         
+           
+        </div>
+         </form>
+         <%- include('todos.ejs',{title:'Overdue' , data : overduelist,id1:"count-overdue"}) %>
+         <%- include('todos.ejs',{title:'Due Today' , data : duetodaylist,id1:"count-due-today"}) %>
+         <%- include('todos.ejs',{title:'Due Later' , data : duelaterlist,id1:"count-due-later"}) %>
+         
+         </div>
+         </div>
+      
     </body>
-
-    <%-include('footer.ejs') %>
-
 </html>
  
