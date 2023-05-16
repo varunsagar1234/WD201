@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -18,9 +19,78 @@ module.exports = (sequelize, DataTypes) => {
     static getTodos() {
       return this.findAll();
     }
+    static async overdue() {
+      // FILL IN HERE TO RETURN OVERDUE ITEMS
 
-    markAsCompleted() {
-      return this.update({ completed: true });
+      const today = new Date();
+      return this.findAll({
+        where: {
+          dueDate: {
+            [Op.lt]: today,
+          },
+          completed: false,
+        },
+        order: [["id", "ASC"]],
+      });
+    }
+
+    static async dueToday() {
+      // FILL IN HERE TO RETURN ITEMS DUE tODAY
+      const today = new Date();
+      return this.findAll({
+        where: {
+          dueDate: {
+            [Op.eq]: today,
+          },
+          completed: false,
+        },
+        order: [["id", "ASC"]],
+      });
+    }
+    static async remove(id) {
+      return this.destroy({
+        where: {
+          id,
+        },
+      });
+    }
+    static async getcompletedlist() {
+      return this.findAll({
+        where: {
+          completed: true,
+        },
+        order: [["id", "ASC"]],
+      });
+    }
+
+    static async dueLater() {
+      // FILL IN HERE TO RETURN ITEMS DUE LATER
+      const today = new Date();
+      return this.findAll({
+        where: {
+          dueDate: {
+            [Op.gt]: today,
+          },
+          completed: false,
+        },
+        order: [["id", "ASC"]],
+      });
+    }
+
+    static async completed(id) {
+      // FILL IN HERE TO MARK AN ITEM AS COMPLETE
+      return this.update(
+        { completed: true },
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
+    }
+
+    setCompletionStatus(completed) {
+      return this.update({ completed });
     }
   }
   Todo.init(
