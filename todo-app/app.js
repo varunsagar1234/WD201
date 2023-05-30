@@ -91,6 +91,9 @@ app.get(
   async (request, response) => {
     //const allTodos = await Todo.getTodos(loggedInUser);
     const loggedInUser = request.user.id;
+    let username1 = await User.getuser(request.user.id);
+    let username2 = username1.firstName;
+    console.log(username1.firstName);
     //console.log("id is ",loggedInUser);
     const overduelist = await Todo.overdue(loggedInUser);
     const duetodaylist = await Todo.dueToday(loggedInUser);
@@ -101,6 +104,7 @@ app.get(
       response.render("todo", {
         title: "Todo application",
         //allTodos,
+        username2,
         overduelist,
         duetodaylist,
         duelaterlist,
